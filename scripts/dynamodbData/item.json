@@ -1,4 +1,4 @@
 {
-  "env" : {"S":  "dev"},
-  "message" : {"S" :  "hello world"}
+  "env" : {"S":  "HASHKEY"},
+  "message" : {"S" :  "MESSAGE"}
 }

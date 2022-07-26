@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - prod
+  workflow_dispatch:
 jobs:
   call-reusable-workflow:
     uses: ./.github/workflows/terraform-ci.yml
