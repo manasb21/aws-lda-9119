@@ -1,4 +1,4 @@
-name: Deploy to Dev environment
+name: Deploy to PROD environment
 on:
   push:
     branches:
