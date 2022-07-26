@@ -7,7 +7,7 @@ jobs:
   call-reusable-workflow:
     env:
       region: eu-central-1
-    uses: ./infrastructure/CI-CD/terraform-ci.yml
+    uses: ./.github/workflows/terraform-ci.yml
     with:
       environment: dev
       working-directory: infrastructure/environments/application/${{env.region}}
