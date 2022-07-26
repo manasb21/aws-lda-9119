@@ -12,8 +12,19 @@ jobs:
       working-directory: infrastructure/environments/application/eu-central-1
       values_dir: infrastructure/environments/values
       environment: dev
+      golang_app_dir: application/hello-world
 
     steps:
+      - name: checkout binary code
+        uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+          with:
+            go-version: '1.17.6'
+      - name: build binary
+        run: |
+          env GOOS=linux GOARCH=amd64 go build -o ../bin/hello
+        working-directory: ${{ env.golang_app_dir }}
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
