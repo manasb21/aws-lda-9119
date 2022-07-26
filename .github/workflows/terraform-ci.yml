@@ -62,9 +62,7 @@ jobs:
         env:
             TF_WORKSPACE: ${{ inputs.TF_WORKSPACE }}
             TF_CLI_ARGS_init: -backend-config=../../values/${{ inputs.environment }}-backend.conf  -upgrade -reconfigure
-      - name: Terraform Switch workspace
-        id: workspace
-        run: terraform workspace select ${{ inputs.TF_WORKSPACE }}
+
       - name: Terraform validate
         id: validate
         run: terraform validate
