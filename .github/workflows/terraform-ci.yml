@@ -52,9 +52,9 @@ jobs:
       - name: Terraform init
         id: init
         run: |
-          ls -lrt
-          pwd
+          ls -lrt ${{ inputs.working-directory }}/../../
           terraform init
+
         working-directory: ${{ inputs.working-directory }}
         env:
             TF_CLI_ARGS_init: -backend-config=${{ inputs.working-directory }}/../../values/${{ inputs.environment }}-backend.conf -upgrade -reconfigure
