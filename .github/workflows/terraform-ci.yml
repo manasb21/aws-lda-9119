@@ -14,6 +14,7 @@ jobs:
       values_dir: infrastructure/environments/values
       environment: dev
       golang_app_dir: application/hello-world
+      region: eu-central-1
 
     steps:
       - name: checkout binary code
