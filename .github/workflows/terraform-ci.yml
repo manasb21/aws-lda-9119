@@ -15,9 +15,6 @@ on:
       AWS_SECRET_ACCESS_KEY:
         required: true
 
-  pull_request:
-  push: { branches: [dev,prod, test] }
-
 jobs:
   terraform:
     runs-on: ubuntu-latest
