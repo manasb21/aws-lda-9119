@@ -1,0 +1,52 @@
+name: 'Terraform'
+
+on:
+  pull_request:
+  push: { branches: [dev,prod] }
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    env:
+      TF_WORKSPACE: Default
+      working-directory: infrastructure/environments/application/eu-central-1
+      values_dir: infrastructure/environments/values
+      environment: dev
+
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: "eu-central-1"
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - uses: hashicorp/setup-terraform@v1
+          with:
+            terraform_version: 1.2.4
+      - name: Terraform Fmt
+          id: fmt
+          run: terraform fmt -check
+          continue-on-error: true
+      - name: Terraform init
+          id: init
+          run: terraform init
+          working-directory: ${{ env.working-directory }}
+          env:
+            TF_CLI_ARGS_init: -backend-config=${{ env.values_dir }}/${{ env.environment }}-backend.conf -upgrade -reconfigure
+
+      - name: Terraform validate
+        id: validate
+        run: terraform validate
+
+      - name: Terraform plan
+        id: plan
+        run: terraform plan -no-color -var-file=${{ env.values_dir }}/${{ env.environment }}.tfvars
+        working-directory: ${{ env.working-directory }}
+
+      - name: Terraform apply
+        id: apply
+        run: terraform apply -var-file=${{ env.values_dir }}/${{ env.environment }}.tfvars --auto-approve
+        working-directory: ${{ env.working-directory }}
