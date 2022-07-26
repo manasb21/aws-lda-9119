@@ -52,12 +52,12 @@ jobs:
       - name: Terraform init
         id: init
         run: |
-          ls -lrt ../../../
+          ls -lrt ../../values/
           terraform init
 
         working-directory: ${{ inputs.working-directory }}
         env:
-            TF_CLI_ARGS_init: -backend-config=${{ inputs.working-directory }}/../../values/${{ inputs.environment }}-backend.conf -upgrade -reconfigure
+            TF_CLI_ARGS_init: -backend-config=../../values/${{ inputs.environment }}-backend.conf -upgrade -reconfigure
       - name: Terraform Switch workspace
         id: workspace
         run: terraform workspace new ${{ inputs.environment }} && terraform workspace select ${{ inputs.environment }}
@@ -67,10 +67,10 @@ jobs:
 
       - name: Terraform plan
         id: plan
-        run: terraform plan -no-color -var-file=${{ inputs.working-directory }}/../../values/${{ inputs.environment }}.tfvars
+        run: terraform plan -no-color -var-file=../../values/${{ inputs.environment }}.tfvars
         working-directory: ${{ inputs.working-directory }}
 
       - name: Terraform apply
         id: apply
-        run: terraform apply -var-file=${{ inputs.working-directory }}/../../values/${{ inputs.environment }}.tfvars --auto-approve
+        run: terraform apply -var-file=../../values/${{ inputs.environment }}.tfvars --auto-approve
         working-directory: ${{ inputs.working-directory }}
