@@ -31,6 +31,8 @@ jobs:
             go-version: '1.17.6'
       - name: build binary
         run: |
+          pwd
+          ls -lrt
           env GOOS=linux GOARCH=amd64 go build -o ../bin/hello
         working-directory: ${{ env.golang_app_dir }}
 
@@ -40,8 +42,6 @@ jobs:
           aws-region: "eu-central-1"
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      - name: Checkout Code
-        uses: actions/checkout@v2
 
       - uses: hashicorp/setup-terraform@v1
         with:
@@ -52,7 +52,10 @@ jobs:
         continue-on-error: true
       - name: Terraform init
         id: init
-        run: terraform init
+        run: |
+          ls -lrt
+          pwd
+          terraform init
         working-directory: ${{ inputs.working-directory }}
         env:
             TF_CLI_ARGS_init: -backend-config=${{ env.values_dir }}/${{ inputs.environment }}-backend.conf -upgrade -reconfigure
