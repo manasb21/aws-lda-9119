@@ -122,7 +122,7 @@
     
     Infrastructure folder contains the terraform modules , terraform environment codes and the common CI/CD pipeline to be used by github actions.
     
-    CI-CD folder contains ppro-workspaces.yml to perform terraform actions
+    CI CD are performed through the files in .github/workflows.
     
     environments/eu-central-1 contains code for dev and prod environments if they are implemented in the same region. if the region changes with some other regional changed to the code  the same code can be replicated to a different region with different values.
     
