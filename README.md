@@ -146,11 +146,11 @@
 
 To perform deployment with github actions, please see page :
 
-[Github Actions](https://www.notion.so/Github-Actions-c85771b17ad04bae8fb928f30f19fba0)
+[Github Actions](githubActions.md)
 
 To perform Local build please see page:
 
-[Local Build](https://www.notion.so/Local-Build-3742513c3a8f43b6963cef733eead56d)
+[Local Build](localbuild.md)
 
 <aside>
 📌 The steps till now should be able to get you to the desired state of the requirement. However for further information or deep dive to the code se below.
