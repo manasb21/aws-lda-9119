@@ -2,6 +2,13 @@ name: 'Terraform'
 
 on:
   workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      working-directory:
+        required: true
+        type: string
   pull_request:
   push: { branches: [dev,prod, test] }
 
@@ -10,11 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TF_WORKSPACE: Default
-      working-directory: infrastructure/environments/application/eu-central-1
       values_dir: infrastructure/environments/values
-      environment: dev
       golang_app_dir: application/hello-world
-      region: eu-central-1
 
     steps:
       - name: checkout binary code
@@ -46,20 +50,22 @@ jobs:
       - name: Terraform init
         id: init
         run: terraform init
-        working-directory: ${{ env.working-directory }}
+        working-directory: ${{ input.working-directory }}
         env:
-            TF_CLI_ARGS_init: -backend-config=${{ env.values_dir }}/${{ env.environment }}-backend.conf -upgrade -reconfigure
-
+            TF_CLI_ARGS_init: -backend-config=${{ env.values_dir }}/${{ input.environment }}-backend.conf -upgrade -reconfigure
+      - name: Terraform Switch workspace
+        id: workspace
+        run: terraform workspace new ${{ input.environment }} && terraform workspace select ${{ input.environment }}
       - name: Terraform validate
         id: validate
         run: terraform validate
 
       - name: Terraform plan
         id: plan
-        run: terraform plan -no-color -var-file=${{ env.values_dir }}/${{ env.environment }}.tfvars
-        working-directory: ${{ env.working-directory }}
+        run: terraform plan -no-color -var-file=${{ env.values_dir }}/${{ input.environment }}.tfvars
+        working-directory: ${{ input.working-directory }}
 
       - name: Terraform apply
         id: apply
-        run: terraform apply -var-file=${{ env.values_dir }}/${{ env.environment }}.tfvars --auto-approve
-        working-directory: ${{ env.working-directory }}
+        run: terraform apply -var-file=${{ env.values_dir }}/${{ input.environment }}.tfvars --auto-approve
+        working-directory: ${{ input.working-directory }}
