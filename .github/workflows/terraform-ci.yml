@@ -20,7 +20,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TF_WORKSPACE: Default
-      values_dir: infrastructure/environments/values
       golang_app_dir: application/hello-world
 
     steps:
@@ -58,7 +57,7 @@ jobs:
           terraform init
         working-directory: ${{ inputs.working-directory }}
         env:
-            TF_CLI_ARGS_init: -backend-config=${{ env.values_dir }}/${{ inputs.environment }}-backend.conf -upgrade -reconfigure
+            TF_CLI_ARGS_init: -backend-config=${{ inputs.working-directory }}/../../values/${{ inputs.environment }}-backend.conf -upgrade -reconfigure
       - name: Terraform Switch workspace
         id: workspace
         run: terraform workspace new ${{ inputs.environment }} && terraform workspace select ${{ inputs.environment }}
@@ -68,10 +67,10 @@ jobs:
 
       - name: Terraform plan
         id: plan
-        run: terraform plan -no-color -var-file=${{ env.values_dir }}/${{ inputs.environment }}.tfvars
+        run: terraform plan -no-color -var-file=${{ inputs.working-directory }}/../../values/${{ inputs.environment }}.tfvars
         working-directory: ${{ inputs.working-directory }}
 
       - name: Terraform apply
         id: apply
-        run: terraform apply -var-file=${{ env.values_dir }}/${{ inputs.environment }}.tfvars --auto-approve
+        run: terraform apply -var-file=${{ inputs.working-directory }}/../../values/${{ inputs.environment }}.tfvars --auto-approve
         working-directory: ${{ inputs.working-directory }}
