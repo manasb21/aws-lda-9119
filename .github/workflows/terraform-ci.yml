@@ -9,6 +9,12 @@ on:
       working-directory:
         required: true
         type: string
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+
   pull_request:
   push: { branches: [dev,prod, test] }
 
