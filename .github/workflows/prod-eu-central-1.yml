@@ -2,14 +2,14 @@ name: Deploy to Dev environment
 on:
   push:
     branches:
-      - test
+      - prod
 jobs:
   call-reusable-workflow:
     uses: ./.github/workflows/terraform-ci.yml
     with:
-      environment: dev
+      environment: prod
       working-directory: ./infrastructure/environments/application/eu-central-1
-      TF_WORKSPACE: dev
+      TF_WORKSPACE: prod
     secrets:
-      AWS_ACCESS_KEY_ID: ${{secrets.DEV_AWS_ACCESS_KEY}}
-      AWS_SECRET_ACCESS_KEY: ${{secrets.DEV_AWS_SECRET_ACCESS_KEY}}
+      AWS_ACCESS_KEY_ID: ${{secrets.PROD_AWS_ACCESS_KEY}}
+      AWS_SECRET_ACCESS_KEY: ${{secrets.PROD_AWS_SECRET_ACCESS_KEY}}
