@@ -1,0 +1,15 @@
+name: Deploy to PROD environment
+on:
+  push:
+    branches:
+      - prod
+jobs:
+  call-reusable-workflow:
+    uses: ./.github/workflows/terraform-ci.yml
+    with:
+      environment: prod
+      working-directory: ./infrastructure/environments/application/eu-central-1
+      TF_WORKSPACE: prod
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{secrets.PROD_AWS_ACCESS_KEY}}
+      AWS_SECRET_ACCESS_KEY: ${{secrets.PROD_AWS_SECRET_ACCESS_KEY}}
