@@ -8,7 +8,7 @@ jobs:
     uses: ./.github/workflows/terraform-ci.yml
     with:
       environment: dev
-      working-directory: infrastructure/environments/application/eu-central-1
+      working-directory: ./infrastructure/environments/application/eu-central-1
     secrets:
       AWS_ACCESS_KEY_ID: ${{secrets.DEV_AWS_ACCESS_KEY}}
       AWS_SECRET_ACCESS_KEY: ${{secrets.DEV_AWS_SECRET_ACCESS_KEY}}
