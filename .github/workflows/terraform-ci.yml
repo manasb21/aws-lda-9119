@@ -2,7 +2,7 @@ name: 'Terraform'
 
 on:
   pull_request:
-  push: { branches: [dev,prod] }
+  push: { branches: [dev,prod, test] }
 
 jobs:
   terraform:

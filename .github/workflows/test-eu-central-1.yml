@@ -1,0 +1,16 @@
+name: Deploy to Dev environment
+on:
+  push:
+    branches:
+      - test
+jobs:
+  call-reusable-workflow:
+    env:
+      region: eu-central-1
+    uses: ./.github/workflows/terraform-ci.yml
+    with:
+      environment: dev
+      working-directory: infrastructure/environments/application/${{env.region}}
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{secrets.DEV_AWS_ACCESS_KEY}}
+      AWS_SECRET_ACCESS_KEY: ${{secrets.DEV_AWS_SECRET_ACCESS_KEY}}
