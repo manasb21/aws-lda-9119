@@ -50,22 +50,22 @@ jobs:
       - name: Terraform init
         id: init
         run: terraform init
-        working-directory: ${{ input.working-directory }}
+        working-directory: ${{ inputs.working-directory }}
         env:
-            TF_CLI_ARGS_init: -backend-config=${{ env.values_dir }}/${{ input.environment }}-backend.conf -upgrade -reconfigure
+            TF_CLI_ARGS_init: -backend-config=${{ env.values_dir }}/${{ inputs.environment }}-backend.conf -upgrade -reconfigure
       - name: Terraform Switch workspace
         id: workspace
-        run: terraform workspace new ${{ input.environment }} && terraform workspace select ${{ input.environment }}
+        run: terraform workspace new ${{ inputs.environment }} && terraform workspace select ${{ inputs.environment }}
       - name: Terraform validate
         id: validate
         run: terraform validate
 
       - name: Terraform plan
         id: plan
-        run: terraform plan -no-color -var-file=${{ env.values_dir }}/${{ input.environment }}.tfvars
-        working-directory: ${{ input.working-directory }}
+        run: terraform plan -no-color -var-file=${{ env.values_dir }}/${{ inputs.environment }}.tfvars
+        working-directory: ${{ inputs.working-directory }}
 
       - name: Terraform apply
         id: apply
-        run: terraform apply -var-file=${{ env.values_dir }}/${{ input.environment }}.tfvars --auto-approve
-        working-directory: ${{ input.working-directory }}
+        run: terraform apply -var-file=${{ env.values_dir }}/${{ inputs.environment }}.tfvars --auto-approve
+        working-directory: ${{ inputs.working-directory }}
