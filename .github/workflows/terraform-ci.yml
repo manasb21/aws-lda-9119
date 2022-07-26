@@ -66,13 +66,19 @@ jobs:
       - name: Terraform validate
         id: validate
         run: terraform validate
+        env:
+          TF_WORKSPACE: ${{ inputs.TF_WORKSPACE }}
 
       - name: Terraform plan
         id: plan
         run: terraform plan -no-color -var-file=../../values/${{ inputs.environment }}.tfvars
         working-directory: ${{ inputs.working-directory }}
+        env:
+          TF_WORKSPACE: ${{ inputs.TF_WORKSPACE }}
 
       - name: Terraform apply
         id: apply
         run: terraform apply -var-file=../../values/${{ inputs.environment }}.tfvars --auto-approve
         working-directory: ${{ inputs.working-directory }}
+        env:
+          TF_WORKSPACE: ${{ inputs.TF_WORKSPACE }}
