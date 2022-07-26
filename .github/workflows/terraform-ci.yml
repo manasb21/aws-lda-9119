@@ -52,7 +52,7 @@ jobs:
       - name: Terraform init
         id: init
         run: |
-          ls -lrt ${{ inputs.working-directory }}/../../
+          ls -lrt ../../../
           terraform init
 
         working-directory: ${{ inputs.working-directory }}
