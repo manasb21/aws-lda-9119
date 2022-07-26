@@ -27,14 +27,14 @@ jobs:
         with:
             terraform_version: 1.2.4
       - name: Terraform Fmt
-          id: fmt
-          run: terraform fmt -check
-          continue-on-error: true
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
       - name: Terraform init
-          id: init
-          run: terraform init
-          working-directory: ${{ env.working-directory }}
-          env:
+        id: init
+        run: terraform init
+        working-directory: ${{ env.working-directory }}
+        env:
             TF_CLI_ARGS_init: -backend-config=${{ env.values_dir }}/${{ env.environment }}-backend.conf -upgrade -reconfigure
 
       - name: Terraform validate
